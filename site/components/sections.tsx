@@ -179,7 +179,7 @@ export function Work() {
             <article key={c.n} className="grid grid-cols-1 items-center gap-8 md:grid-cols-12 md:gap-12">
               <Reveal className={`md:col-span-7 ${flip ? "md:order-2" : ""}`}>
                 <div className="overflow-hidden rounded-2xl border border-line bg-panel shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]">
-                  <Image src={c.image} alt={c.alt} width={1920} height={790} sizes="(min-width: 768px) 60vw, 100vw" className="h-auto w-full" />
+                  <Image src={c.image} alt={c.alt} width={3840} height={1580} sizes="(min-width: 768px) 60vw, 100vw" className="h-auto w-full" />
                 </div>
               </Reveal>
               <Reveal index={1} className={`md:col-span-5 ${flip ? "md:order-1" : ""}`}>

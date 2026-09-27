@@ -58,7 +58,7 @@ export const cases = [
     n: "01",
     label: "Online forms",
     title: "Type it once. The forms fill themselves.",
-    image: "/media/case-forms.jpg",
+    image: "/media/case-forms-v2.jpg",
     alt: "You add a row to a spreadsheet, the AI helper fills in a supplier sign-up form on a website, and the reference number is saved back to the sheet",
     problem:
       "You copy the same details into supplier portals, government forms or booking sites, one box at a time, again and again.",
@@ -69,7 +69,7 @@ export const cases = [
     n: "02",
     label: "Websites",
     title: "Your product, on a website that sells.",
-    image: "/media/case-web-3d.jpg",
+    image: "/media/case-web-3d-v2.jpg",
     alt: "A product website being built around a ceramic mug, with a 3D close-up of hot chocolate pouring into the mug",
     problem:
       "Your product is good, but your website is slow, awkward on a phone or doesn't exist yet, and people can't find you on Google.",
@@ -80,7 +80,7 @@ export const cases = [
     n: "03",
     label: "Custom apps",
     title: "A receipt app, built just for you.",
-    image: "/media/case-app.jpg",
+    image: "/media/case-app-v2.jpg",
     alt: "A custom receipt app on a phone scans a receipt, the AI helper reads the store, date and total, and it is saved to the business's own database and cloud",
     problem:
       "Receipts pile up in wallets, utes and inboxes, and someone types them into a spreadsheet or the accounts by hand.",

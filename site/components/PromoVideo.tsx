@@ -79,7 +79,7 @@ export function PromoVideo() {
       <video
         ref={video}
         className="block aspect-video w-full cursor-pointer"
-        poster="/media/poster.jpg"
+        poster="/media/poster-v2.jpg"
         muted
         loop
         playsInline
@@ -88,8 +88,8 @@ export function PromoVideo() {
         aria-label="30-second tour: smashing repetitive work with custom AI agents, and how the demo-first process works"
       >
         {/* MP4 (H.264/AAC) first: every browser, including Safari and iOS, plays it. */}
-        <source src="/media/promo-v5.mp4" type={'video/mp4; codecs="avc1.640028, mp4a.40.2"'} />
-        <source src="/media/promo-v5.webm" type={'video/webm; codecs="vp9, opus"'} />
+        <source src="/media/promo-v6.mp4" type={'video/mp4; codecs="avc1.640028, mp4a.40.2"'} />
+        <source src="/media/promo-v6.webm" type={'video/webm; codecs="vp9, opus"'} />
       </video>
       <button
         type="button"

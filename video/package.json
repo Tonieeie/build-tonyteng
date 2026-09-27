@@ -6,7 +6,7 @@
   "scripts": {
     "studio": "remotion studio",
     "render": "node scripts/audio.mjs && remotion render Promo out/promo-raw.mp4 --codec=h264 --crf=20 && npm run master",
-    "stills": "remotion still Promo out/poster.jpg --frame=112 && remotion still Promo out/case-1.jpg --frame=272 && remotion still Promo out/case-2.jpg --frame=402 && remotion still Promo out/case-3.jpg --frame=642 && remotion still OgImage out/og.png",
+    "stills": "remotion still Promo out/poster.jpg --frame=112 --scale=2 && remotion still Promo out/case-1.jpg --frame=272 --scale=2 && remotion still Promo out/case-2.jpg --frame=401 --scale=2 && remotion still Promo out/case-3.jpg --frame=642 --scale=2 && remotion still OgImage out/og.png",
     "typecheck": "tsc --noEmit",
     "render:full": "remotion render PromoFull out/promo-full.mp4 --codec=h264 --crf=20",
     "master": "ffmpeg -y -v error -i out/promo-raw.mp4 -c:v copy -af \"alimiter=limit=0.8:level=false,loudnorm=I=-15:TP=-1.5:LRA=11\" -ar 48000 -c:a aac -b:a 192k -shortest -movflags +faststart out/promo.mp4",

@@ -4,6 +4,7 @@ import { ThreeCanvas } from "@remotion/three";
 import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment.js";
+import { HotChocolate } from "./Pour";
 
 // A glazed ceramic mug, built from primitives so it needs no model files.
 // Everything is driven by the Remotion frame (scene-local), so it renders deterministically.
@@ -19,7 +20,6 @@ export type MugTiming = {
 
 const CLAY = "#A4553A";
 const CREAM = "#F1E8DA";
-const COCOA = "#4A2A1C";
 const BG = "#E9DCCB";
 
 const R_TOP = 1.0;
@@ -156,18 +156,6 @@ const Mug: React.FC<{ t: MugTiming }> = ({ t }) => {
   const liquidTop = FLOOR + level;
   const rAt = (lvl: number) => IN_BOT + (IN_TOP - IN_BOT) * ((lvl + 0.07) / H);
 
-  // Stream: bottom end falls from above to the surface, then the top end follows it down.
-  const STREAM_TOP = 6;
-  const fallIn = ease(frame, t.pour[0], t.pour[0] + 4);
-  const cutOff = ease(frame, t.pour[1], t.pour[1] + 6);
-  const streamBottom = interpolate(fallIn, [0, 1], [STREAM_TOP, Math.max(liquidTop, FLOOR)]);
-  const streamTopY = interpolate(cutOff, [0, 1], [STREAM_TOP, Math.max(liquidTop, FLOOR)]);
-  const streamLen = Math.max(0, streamTopY - streamBottom);
-  const pouring = frame >= t.pour[0] && streamLen > 0.01;
-  const wobble = Math.sin(frame * 1.7) * 0.01;
-
-  // Ripple ring on the surface while pouring.
-  const rippleQ = ((frame - t.pour[0]) % 10) / 10;
   const appear = ease(frame, t.appear, t.appear + 10);
 
   return (
@@ -202,33 +190,8 @@ const Mug: React.FC<{ t: MugTiming }> = ({ t }) => {
         <meshPhysicalMaterial color={CLAY} roughness={0.35} clearcoat={1} clearcoatRoughness={0.12} envMapIntensity={0.55} />
       </mesh>
 
-      {/* hot chocolate */}
-      {level > 0.01 ? (
-        <>
-          <mesh position={[0, FLOOR + level / 2, 0]}>
-            <cylinderGeometry args={[rAt(level), IN_BOT, level, 64, 1, true]} />
-            <meshPhysicalMaterial color={COCOA} roughness={0.15} clearcoat={1} side={THREE.BackSide} />
-          </mesh>
-          <mesh position={[0, liquidTop + wobble, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-            <circleGeometry args={[rAt(level) - 0.005, 64]} />
-            <meshPhysicalMaterial color="#5A3322" roughness={0.12} clearcoat={1} clearcoatRoughness={0.05} />
-          </mesh>
-          {pouring ? (
-            <mesh position={[0, liquidTop + 0.01, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-              <ringGeometry args={[0.08 + rippleQ * 0.55, 0.11 + rippleQ * 0.55, 48]} />
-              <meshBasicMaterial color="#8B5A40" transparent opacity={0.6 * (1 - rippleQ)} />
-            </mesh>
-          ) : null}
-        </>
-      ) : null}
-
-      {/* stream */}
-      {pouring ? (
-        <mesh position={[0.02, streamBottom + streamLen / 2, 0]}>
-          <cylinderGeometry args={[0.07, 0.085, streamLen, 16, 1]} />
-          <meshPhysicalMaterial color="#5A3322" roughness={0.1} clearcoat={1} />
-        </mesh>
-      ) : null}
+      {/* hot chocolate: body, rippling surface, crema, foam, arcing stream, splash */}
+      <HotChocolate t={t} level={level} floor={FLOOR} radiusAt={rAt} bottomRadius={IN_BOT} />
 
       {/* contact shadow */}
       <mesh position={[0, -H / 2 - 0.005, 0]} rotation={[-Math.PI / 2, 0, 0]}>
