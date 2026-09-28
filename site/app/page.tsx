@@ -1,4 +1,4 @@
-import { Anything, Contact, Faq, Footer, Hero, Industries, Nav, Pricing, Process, SoundFamiliar, Work } from "@/components/sections";
+import { Contact, Faq, Footer, Hero, Industries, Nav, Pricing, Process, Services, SoundFamiliar, Work } from "@/components/sections";
 
 export default function Home() {
   return (
@@ -6,12 +6,12 @@ export default function Home() {
       <Nav />
       <main>
         <Hero />
+        <Services />
         <SoundFamiliar />
         <Work />
         <Industries />
         <Process />
         <Pricing />
-        <Anything />
         <Faq />
         <Contact />
       </main>

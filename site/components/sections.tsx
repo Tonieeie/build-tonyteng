@@ -3,22 +3,13 @@ import Link from "next/link";
 import {
   ArrowRight,
   ArrowUpRight,
-  BookOpenText,
   Browser,
-  CalendarCheck,
-  ChartBar,
-  ChatCircleDots,
-  Cube,
-  CurrencyDollar,
-  DeviceMobile,
-  FileText,
+  Check,
   FlowArrow,
-  GameController,
-  NotePencil,
-  Plugs,
+  Lifebuoy,
   Plus,
 } from "@phosphor-icons/react/dist/ssr";
-import { capabilities, cases, faqs, ideas, nav, pains, pricing, proof, site, steps } from "@/lib/site";
+import { cases, faqs, nav, pains, pricing, proof, services, site, steps } from "@/lib/site";
 import { ContactForm } from "./ContactForm";
 import { IndustryTabs } from "./IndustryTabs";
 import { PromoVideo } from "./PromoVideo";
@@ -35,7 +26,6 @@ function Mark() {
     <span className="flex items-baseline gap-2.5 whitespace-nowrap">
       <span className="size-2.5 translate-y-[-1px] self-center rounded-[2px] bg-accent" />
       <span className="text-[15px] font-semibold tracking-tight text-text">{site.name}</span>
-      <span className="hidden font-mono text-xs text-muted sm:inline">by {site.owner}</span>
     </span>
   );
 }
@@ -55,7 +45,7 @@ export function Nav({ home = true }: { home?: boolean }) {
         <Link href={home ? "#top" : "/"} aria-label={`${site.name}, home`}>
           <Mark />
         </Link>
-        <nav className="hidden items-center gap-8 text-sm text-muted md:flex">
+        <nav className="hidden items-center gap-6 text-sm text-muted lg:flex">
           {nav.map((n) => (
             <a key={n.href} href={href(n.href)} className="transition hover:text-text">
               {n.label}
@@ -64,9 +54,10 @@ export function Nav({ home = true }: { home?: boolean }) {
         </nav>
         <a
           href={href("#contact")}
-          className="rounded-full bg-text px-4 py-2 text-sm font-semibold text-ink transition hover:bg-white active:scale-[0.97]"
+          className="shrink-0 whitespace-nowrap rounded-full bg-text px-3 py-2 text-sm font-semibold text-ink transition hover:bg-white active:scale-[0.97] sm:px-4"
         >
-          Get a free demo
+          <span className="sm:hidden">Free demo</span>
+          <span className="hidden sm:inline">Get a free demo</span>
         </a>
       </div>
     </header>
@@ -85,22 +76,26 @@ export function Hero() {
           </Reveal>
           <Reveal index={1}>
             <h1 className="mt-6 text-[2.6rem] leading-[1.02] font-semibold tracking-tighter text-balance sm:text-5xl md:text-6xl lg:text-[4.4rem]">
-              Hand off the boring parts of your business.
+              Less admin. Better tools.
+              <span className="mt-2 block text-accent">No IT team needed.</span>
             </h1>
           </Reveal>
           <Reveal index={2}>
             <p className="mt-6 max-w-[58ch] text-lg leading-relaxed text-muted">
-              I automate the repetitive work in your business, and build the websites and apps you need, all working with the tools
-              you already use. You see it working before you pay a cent.
+              I help small businesses automate everyday tasks and build the websites and tools they need. I handle the setup,
+              show you how to use it, and offer ongoing care after launch.
             </p>
           </Reveal>
           <Reveal index={3} className="mt-9 flex flex-wrap items-center gap-3">
             <a href="#contact" className={primaryBtn}>
-              Tell me what&rsquo;s eating your week <ArrowRight size={16} weight="bold" />
+              Tell me what you need <ArrowRight size={16} weight="bold" />
             </a>
             <a href="#work" className={ghostBtn}>
               See examples
             </a>
+          </Reveal>
+          <Reveal index={4}>
+            <p className="mt-4 text-sm text-muted">Free working demo. Fixed quote before any paid work starts.</p>
           </Reveal>
         </div>
         <div className="self-end md:col-span-4">
@@ -119,10 +114,6 @@ export function Hero() {
           </Reveal>
         </div>
       </div>
-
-      <Reveal index={2} className="mt-14 md:mt-20">
-        <PromoVideo />
-      </Reveal>
     </section>
   );
 }
@@ -167,10 +158,14 @@ export function Work() {
         </Reveal>
         <Reveal index={1} className="md:col-span-5 md:self-end">
           <p className="max-w-[48ch] leading-relaxed text-muted">
-            Three everyday jobs, handled for you around the clock. Yours gets set up around the way your business already runs.
+            From repeated form-filling to a website or a receipt app. Each is built around the way your business already runs.
           </p>
         </Reveal>
       </div>
+
+      <Reveal className="mt-12 md:mt-16">
+        <PromoVideo />
+      </Reveal>
 
       <div className="mt-16 flex flex-col gap-20 md:mt-24 md:gap-32">
         {cases.map((c, i) => {
@@ -266,7 +261,7 @@ export function Process() {
           <Reveal as="li" className="flex items-center gap-4 border-t border-line pt-8">
             <span className="h-px w-10 bg-accent" />
             <p className="text-lg text-sub">
-              Not what you need? <span className="font-semibold text-text">You owe nothing.</span>
+              Demo not right for you? <span className="font-semibold text-text">You owe nothing.</span>
             </p>
           </Reveal>
         </ol>
@@ -314,111 +309,52 @@ export function Pricing() {
   );
 }
 
-/* ---------------- Anything ---------------- */
+/* ---------------- Services & support ---------------- */
 
-const icons = {
-  flow: FlowArrow,
-  app: DeviceMobile,
-  chat: ChatCircleDots,
-  file: FileText,
-  money: CurrencyDollar,
-  cube: Cube,
-  calendar: CalendarCheck,
-  quote: NotePencil,
-  chart: ChartBar,
-  plugs: Plugs,
-  book: BookOpenText,
-  browser: Browser,
-  game: GameController,
-} as const;
+const serviceIcons = { flow: FlowArrow, browser: Browser, care: Lifebuoy } as const;
 
-/** Wireframe cube that slowly turns, the visual for the 3D tile. */
-function SpinningCube() {
+export function Services() {
   return (
-    <div className="cube-stage" aria-hidden>
-      <div className="cube">
-        {["front", "back", "right", "left", "top", "bottom"].map((f) => (
-          <span key={f} className={`cube-face cube-${f}`} />
-        ))}
+    <section id="services" className={`${wrap} pt-16 md:pt-24`}>
+      <Reveal>
+        <Label>Services & support</Label>
+        <h2 className="mt-4 text-3xl font-semibold tracking-tighter text-balance md:text-4xl">Build it. Use it. Keep it running.</h2>
+      </Reveal>
+      <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
+        {services.map((service, i) => {
+          const Icon = serviceIcons[service.icon];
+          const care = service.icon === "care";
+          return (
+            <Reveal key={service.title} index={i} className={`flex flex-col rounded-2xl border p-6 md:p-8 ${care ? "border-accent/40 bg-accent-dim" : "border-line bg-panel"}`}>
+              <div className="flex items-center gap-3 text-accent">
+                <Icon size={24} weight="duotone" aria-hidden />
+                <p className="font-mono text-xs uppercase tracking-[0.08em]">{service.label}</p>
+              </div>
+              <h3 className="mt-6 text-2xl font-semibold tracking-tight">{service.title}</h3>
+              <p className="mt-3 leading-relaxed text-sub">{service.body}</p>
+              <ul className="mt-6 space-y-3">
+                {service.points.map((point) => (
+                  <li key={point} className="flex gap-3 text-sm leading-relaxed text-sub">
+                    <Check size={16} weight="bold" className="mt-0.5 shrink-0 text-accent" aria-hidden />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-auto pt-8">
+                {care ? (
+                  <p className="mb-4 text-sm text-sub">From <span className="text-2xl font-semibold text-text">{pricing.care}</span> / month · Optional</p>
+                ) : null}
+                <Link href={service.href} className="inline-flex min-h-11 items-center gap-2 text-sm font-medium text-accent underline decoration-accent/40 underline-offset-4 transition hover:decoration-accent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+                  {service.link} <ArrowRight size={15} aria-hidden />
+                </Link>
+              </div>
+            </Reveal>
+          );
+        })}
       </div>
-    </div>
-  );
-}
-
-export function Anything() {
-  const loop = [...ideas, ...ideas];
-  return (
-    <section id="anything" className="pt-28 md:pt-40">
-      <div className={wrap}>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-12">
-          <Reveal className="md:col-span-7">
-            <Label>Anything custom</Label>
-            <h2 className="mt-4 text-4xl font-semibold tracking-tighter text-balance md:text-6xl">
-              Your idea. <span className="text-accent">I&rsquo;ll build it.</span>
-            </h2>
-          </Reveal>
-          <Reveal index={1} className="md:col-span-5 md:self-end">
-            <p className="max-w-[48ch] leading-relaxed text-muted">
-              If you can describe it, I can probably build it. Here&rsquo;s some of what people ask for, from workflow automation to
-              custom apps, websites and even 3D demo videos.
-            </p>
-          </Reveal>
-        </div>
-
-        <div className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {capabilities.map((c, i) => {
-            const Icon = icons[c.icon];
-            return (
-              <Reveal
-                key={c.title}
-                index={i % 4}
-                className={`group relative overflow-hidden rounded-2xl border border-line bg-panel/80 p-6 transition-colors hover:border-line-hi ${
-                  c.span === 2 ? "sm:col-span-2" : ""
-                }`}
-              >
-                {c.icon === "cube" ? <SpinningCube /> : null}
-                <span className="inline-flex size-10 items-center justify-center rounded-xl bg-accent-dim text-accent">
-                  <Icon size={22} weight="duotone" />
-                </span>
-                <h3 className="mt-5 text-lg font-semibold tracking-tight">{c.title}</h3>
-                <p className={`mt-1.5 text-sm leading-relaxed text-muted ${c.icon === "cube" ? "max-w-[34ch] sm:max-w-[40ch]" : ""}`}>{c.body}</p>
-              </Reveal>
-            );
-          })}
-          <Reveal index={1} className="sm:col-span-2 lg:col-span-4">
-            <a
-              href="#contact"
-              className="flex h-full min-h-[180px] flex-col justify-between rounded-2xl bg-accent p-6 text-ink transition hover:brightness-105 active:scale-[0.99]"
-            >
-              <Plus size={24} weight="bold" />
-              <span>
-                <span className="block text-2xl font-semibold tracking-tight">Something else entirely?</span>
-                <span className="mt-1 inline-flex items-center gap-1.5 font-medium">
-                  Not sure it&rsquo;s possible? Ask anyway <ArrowRight size={16} weight="bold" />
-                </span>
-              </span>
-            </a>
-          </Reveal>
-        </div>
-      </div>
-
-      <div className="mt-16">
-        <p className={`${wrap} font-mono text-xs uppercase tracking-[0.08em] text-faint`}>Ideas worth stealing</p>
-        <div className="marquee relative mt-4 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-          <ul className="marquee-track flex w-max gap-3 py-1">
-            {loop.map((idea, i) => (
-              <li
-                key={i}
-                aria-hidden={i >= ideas.length}
-                className="flex shrink-0 items-center gap-2 rounded-full border border-line bg-panel px-4 py-2 text-sm text-sub"
-              >
-                <span className="size-1.5 rounded-full bg-accent" />
-                {idea}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+      <Reveal className="mt-6">
+        <p className="text-sm leading-relaxed text-muted">Start with one problem. I help you work out what to build and what support you need.</p>
+      </Reveal>
     </section>
   );
 }

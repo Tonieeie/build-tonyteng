@@ -4,11 +4,12 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { Footer, Label, Nav, wrap } from "@/components/sections";
 import { Reveal } from "@/components/Reveal";
+import { ProjectVideo } from "@/components/ProjectVideo";
 import { projects, site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: `Past projects — ${site.name}`,
-  description: "A few things I've built: websites, a comparison platform and internal tools.",
+  description: "Recent websites and a comparison platform, with desktop previews and animations.",
   alternates: { canonical: "/work" },
   // Client work: reachable from the site, but kept out of search results.
   robots: { index: false, follow: true },
@@ -31,7 +32,7 @@ export default function WorkPage() {
           </Reveal>
           <Reveal index={1} className="md:col-span-5 md:self-end">
             <p className="max-w-[48ch] leading-relaxed text-muted">
-              A few recent projects, from websites to tools a team uses every day. Client names and links are kept private.
+              A few recent projects, from hotel and product websites to an insurance comparison platform.
             </p>
           </Reveal>
         </div>
@@ -41,7 +42,11 @@ export default function WorkPage() {
             <article key={p.id} className="grid grid-cols-1 items-center gap-8 md:grid-cols-12 md:gap-12">
               <Reveal className={`md:col-span-8 ${i % 2 ? "md:order-2" : ""}`}>
                 <div className="overflow-hidden rounded-2xl border border-line bg-panel">
-                  <Image src={p.image} alt={p.alt} width={1600} height={1000} sizes="(min-width: 768px) 66vw, 100vw" className="h-auto w-full" />
+                  {"video" in p ? (
+                    <ProjectVideo src={p.video} poster={p.image} label={p.alt} />
+                  ) : (
+                    <Image src={p.image} alt={p.alt} width={1600} height={1000} sizes="(min-width: 768px) 66vw, 100vw" className="h-auto w-full" />
+                  )}
                 </div>
               </Reveal>
               <Reveal index={1} className={`md:col-span-4 ${i % 2 ? "md:order-1" : ""}`}>
