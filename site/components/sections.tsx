@@ -38,7 +38,7 @@ const ghostBtn =
 /* ---------------- Nav ---------------- */
 
 export function Nav({ home = true }: { home?: boolean }) {
-  const href = (h: string) => (home ? h : `/${h}`);
+  const href = (h: string) => (!home && h.startsWith("#") ? `/${h}` : h);
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-bg/75 backdrop-blur-xl">
       <div className={`${wrap} flex h-16 items-center justify-between`}>

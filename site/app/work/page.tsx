@@ -28,7 +28,7 @@ export default function WorkPage() {
         <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-12">
           <Reveal className="md:col-span-7">
             <Label>Past projects</Label>
-            <h1 className="mt-4 text-4xl font-semibold tracking-tighter text-balance md:text-6xl">Things I&rsquo;ve built.</h1>
+            <h1 className="mt-4 text-4xl font-semibold tracking-tighter text-balance md:text-6xl">Some of my websites and business projects.</h1>
           </Reveal>
           <Reveal index={1} className="md:col-span-5 md:self-end">
             <p className="max-w-[48ch] leading-relaxed text-muted">
